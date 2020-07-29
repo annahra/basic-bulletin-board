@@ -1,0 +1,9 @@
+:host {
+  /* This selector targets the actual component (e.g. post-list) */
+  display: block;
+  margin-top: 1rem;
+}
+
+.info-text {
+  text-align: center;
+}
