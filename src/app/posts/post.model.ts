@@ -5,6 +5,7 @@
 //export allows the interface to be used outside of this file
 
 export interface Post {
+  id: string;
   title: string;
   content: string;
 }
