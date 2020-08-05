@@ -33,28 +33,35 @@ app.post("/api/posts", (req, res, next) => {
     title: req.body.title,
     content: req.body.content
   });
-  console.log(post);
+  post.save();
   res.status(201).json({
     message: 'Post added successfully'
   });
 });
 
 app.get("/api/posts", (req, res, next) => {
-  const posts = [
-    {
-      id: "id1",
-      title: "First server-side post",
-      content: "This is coming from the server"
-    },
-    {
-      id: "id2",
-      title: "Second server-side post",
-      content: "This is coming from the server!"
-    }
-  ];
-  res.status(200).json({
-    message: "Posts fetched successfully!",
-    posts: posts
+  // const posts = [
+  //   {
+  //     id: "id1",
+  //     title: "First server-side post",
+  //     content: "This is coming from the server"
+  //   },
+  //   {
+  //     id: "id2",
+  //     title: "Second server-side post",
+  //     content: "This is coming from the server!"
+  //   }
+  // ];
+
+  //must put the fetching of posts inside the then block in order
+  //to wait for posts to be fetched, otherwise
+  //code will execute asynchronously and the fetching will occur
+  //before we get the data from the database
+  Post.find().then(documents => {
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      posts: documents
+    });
   });
 });
 
