@@ -3,6 +3,7 @@ import { Post } from '../post.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { VirtualTimeScheduler } from 'rxjs';
 
 @Component({
   selector: 'app-post-create',
@@ -30,7 +31,8 @@ export class PostCreateComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       'title': new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
-      'content': new FormControl(null, {validators: [Validators.required]})
+      'content': new FormControl(null, {validators: [Validators.required]}),
+      'image': new FormControl(null, {validators: [Validators.required]})
     });
     //parameter in url could change once your on the page (could load
     //different host id). data needs to change once you edit, so you
@@ -79,6 +81,12 @@ export class PostCreateComponent implements OnInit {
     // this.postCreated.emit(post);
 
     this.form.reset();
+  }
+
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({'image': file});
+    this.form.get('image').updateValueAndValidity();
   }
 
 }
