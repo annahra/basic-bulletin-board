@@ -31,9 +31,16 @@ export class PostCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
-      content: new FormControl(null, {validators: [Validators.required]}),
-      image: new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
+      title: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(3)]
+      }),
+      content: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      image: new FormControl(null, {
+        validators: [Validators.required],
+        asyncValidators: [mimeType]
+      })
     });
     //parameter in url could change once your on the page (could load
     //different host id). data needs to change once you edit, so you
@@ -69,17 +76,18 @@ export class PostCreateComponent implements OnInit {
     }
     this.isLoading = true;
     if(this.mode === 'create') {
-      this.postsService.addPost(this.form.value.title, this.form.value.content);
+      this.postsService.addPost(
+        this.form.value.title,
+        this.form.value.content,
+        this.form.value.image
+      );
     } else {
-      this.postsService.updatePost(this.postId, this.form.value.title, this.form.value.content);
+      this.postsService.updatePost(
+        this.postId,
+        this.form.value.title,
+        this.form.value.content
+      );
     }
-
-    // const post:Post = {
-    //   // form.value.[name attribute on html side]
-    //   title: form.value.title,
-    //   content: form.value.content
-    // };
-    // this.postCreated.emit(post);
 
     this.form.reset();
   }
