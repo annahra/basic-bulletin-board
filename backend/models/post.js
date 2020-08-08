@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const postSchema = mongoose.Schema({
   //js objects are "schema types" in mongoose docs
   title: { type: String, required: true },
-  content: { type: String, required: true }
+  content: { type: String, required: true },
+  imagePath: { type: String, required: true }
 });
 
 //in order to create an objects off of the blueprint/definition
