@@ -73,6 +73,12 @@ router.put("/:id", multer({ storage: storage }).single("image"), (req, res, next
 });
 
 router.get("", (req, res, next) => {
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const postQuery = Post.find();
+  if (pageSize && currentPage) {
+    postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+  }
   // const posts = [
   //   {
   //     id: "id1",
@@ -90,7 +96,7 @@ router.get("", (req, res, next) => {
   //to wait for posts to be fetched, otherwise
   //code will execute asynchronously and the fetching will occur
   //before we get the data from the database
-  Post.find().then(documents => {
+  postQuery.then(documents => {
     res.status(200).json({
       message: "Posts fetched successfully!",
       posts: documents
